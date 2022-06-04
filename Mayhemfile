@@ -1,0 +1,9 @@
+image: ghcr.io/capuanob/vedis-fuzz:latest
+project: vedis
+target: vedis-fuzz
+testsuite:
+    - file://fuzz/corpus
+
+cmds:
+  - cmd: /vedis-fuzz -close_fd_mask=2
+    libfuzzer: true
