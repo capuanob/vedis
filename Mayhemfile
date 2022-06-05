@@ -5,5 +5,5 @@ testsuite:
     - file://fuzz/corpus
 
 cmds:
-  - cmd: /vedis-fuzz -close_fd_mask=2
+  - cmd: /vedis-fuzz 
     libfuzzer: true
