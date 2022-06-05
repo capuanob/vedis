@@ -15,6 +15,7 @@ WORKDIR /vedis
 RUN mkdir -p build
 WORKDIR build
 RUN cmake .. -DCMAKE_C_COMPILER=clang
+RUN make
 
 ## Prepare all library dependencies for copy
 RUN mkdir /deps
@@ -23,8 +24,7 @@ RUN cp `ldd ./fuzz/vedis-fuzz | grep so | sed -e '/^[^\t]/ d' | sed -e 's/\t//' 
 ## Package Stage
 
 FROM --platform=linux/amd64 ubuntu:20.04
-COPY --from=builder /vedis/fuzz/vedis-fuzz /vedis-fuzz
+COPY --from=builder /vedis/build/fuzz/vedis-fuzz /vedis-fuzz
 COPY --from=builder /deps /usr/lib
-COPY --from=builder /gregorio/corpus /tests
 
 CMD "/vedis-fuzz -close_fd_mask=2"
