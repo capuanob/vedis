@@ -9,10 +9,8 @@ ADD . /vedis
 WORKDIR /vedis
 
 ## Build
-RUN mkdir -p build
-WORKDIR build
-RUN clang -fsanitize=fuzzer vedis.c fuzz/fuzz_vedis_exec.c -I .
+RUN clang -fsanitize=fuzzer vedis.c fuzz/fuzz_vedis_exec.c -I . -o vedis-fuzz
 
 ## Package Stage
 FROM --platform=linux/amd64 ubuntu:20.04
-COPY --from=builder /vedis/build/fuzz/vedis-fuzz /vedis-fuzz
+COPY --from=builder /vedis/vedis-fuzz /vedis-fuzz
